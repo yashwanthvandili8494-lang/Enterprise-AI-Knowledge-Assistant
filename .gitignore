@@ -53,6 +53,8 @@ storage/uploads/*
 storage/test_uploads/*
 backend/storage/uploads/*
 !backend/storage/uploads/.gitkeep
+backend/storage/test_uploads/
+backend/storage/test_uploads/*
 
 # IDE & OS
 .vscode/
