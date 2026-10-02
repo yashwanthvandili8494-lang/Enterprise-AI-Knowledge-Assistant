@@ -1,0 +1,42 @@
+# ACME TECH - PRODUCTION DEPLOYMENT & RELEASE RUNBOOK (ENG-OPS-042)
+
+## 1. Scope & Release Cadence
+This procedure applies to all microservices, backend APIs, and web user interfaces deployed to the Acme Cloud Production Environment. Regular releases occur bi-weekly on Tuesdays and Thursdays between 02:00 UTC and 04:00 UTC (the designated low-traffic maintenance window).
+
+## 2. Pre-Deployment Gate & Prerequisites
+Before a release tag can be promoted to production, the following criteria must be satisfied:
+1. All automated CI pipelines on the release branch must pass 100% (unit, integration, and security scans).
+2. End-to-end regression testing on the Staging environment must be approved by QA Lead.
+3. Database migrations must be tested on a sanitized staging database replica, with backward-compatibility verified (expand-and-contract schema pattern).
+4. A Change Advisory Board (CAB) ticket must be in 'APPROVED' status.
+
+## 3. Production Deployment Execution Steps
+Step 1: Release Announcement
+- Announce release commencement in `#prod-deployments` on Slack and trigger PagerDuty silence mode for non-critical alerts for 60 minutes.
+
+Step 2: Database Migration
+- Execute forward database migration scripts via the isolated migration runner container.
+- Verify migration success by checking the Alembic version table.
+
+Step 3: Canary Rollout
+- Deploy the new service version to the Canary tier (10% of user traffic allocation).
+- Monitor system telemetry for 30 minutes. Telemetry metrics to watch:
+  * HTTP 5xx error rate (must remain strictly below 0.1%)
+  * P99 latency (must not exceed 500ms)
+  * CPU and Memory utilization across pods (must remain below 70%)
+
+Step 4: Full Traffic Migration & Blue-Green Switch
+- If canary metrics remain stable for 30 minutes, promote traffic incrementally: 25% -> 50% -> 100%.
+- Maintain old blue instances in hot standby for 15 minutes before decommissioning.
+
+## 4. Rollback Criteria & Emergency Procedure
+An immediate automated rollback is triggered under any of the following conditions:
+- Error rates on API endpoints exceed 0.5% for two consecutive 1-minute intervals.
+- Database connection pool exhaustion exceeds 90% capacity.
+- P99 response time spikes above 800ms.
+
+Rollback Steps:
+1. Re-route 100% traffic immediately back to the standby Blue cluster using ingress controller switch:
+   `kubectl patch ingress acme-prod --type merge -p '{"spec":{"rules":[{"http":{"paths":[{"backend":{"service":{"name":"blue-service"}}}]}}]}}'`
+2. If database migration was executed, apply down-migration scripts if non-destructive, or initiate point-in-time recovery (PITR) if schema corruption occurred.
+3. Post incident summary in `#sec-ops` and page the Secondary Incident Commander.

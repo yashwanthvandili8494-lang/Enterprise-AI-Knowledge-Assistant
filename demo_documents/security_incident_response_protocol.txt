@@ -1,0 +1,36 @@
+# ACME CORP - INFORMATION SECURITY INCIDENT RESPONSE PROTOCOL (SEC-SOP-009)
+
+## 1. Purpose & Incident Definition
+This protocol defines standard operating procedures for identifying, triaging, containing, eradicating, and reporting information security incidents affecting Acme Corp infrastructure, customer data, or employee workstations.
+
+An incident is defined as any confirmed or suspected adverse event that compromises the confidentiality, integrity, or availability of Acme systems or data.
+
+## 2. Severity Classification Matrix
+- SEV-1 (Critical Incident):
+  * Scope: Confirmed breach of customer personally identifiable information (PII), active ransomware outbreak, unauthorized administrative access to production AWS/GCP accounts, or uncontained remote code execution.
+  * Response SLA: Initial responder engagement within 15 minutes, 24/7.
+  * Command: Head of Information Security and CISO take direct command.
+
+- SEV-2 (Major Incident):
+  * Scope: Isolated malware infection on internal network, denial of service (DoS) impacting non-critical services, or compromised internal employee credentials without administrative privilege.
+  * Response SLA: Responder engagement within 45 minutes during business hours or 2 hours off-hours.
+
+- SEV-3 (Minor Incident):
+  * Scope: Phishing email reported with no link clicks, policy violation, or failed brute-force attacks against firewalls.
+  * Response SLA: Responder engagement within 4 business hours.
+
+## 3. Reporting Channels & Immediate Action
+1. All staff who identify an anomaly or suspect an unauthorized access event must report it IMMEDIATELY via:
+   - Security Incident Bot in Slack: `/report-incident`
+   - Dedicated Emergency Hotline: Ext. 4433 (or +1-800-555-ACME)
+   - Email: `security-team@acme.com`
+2. DO NOT power off affected machines. Disconnect Ethernet cables or disable Wi-Fi to isolate the host while preserving volatile RAM state for forensic extraction.
+
+## 4. Containment and Eradication Procedures
+- Network Isolation: SecOps isolates affected VPC subnets using AWS security group revokes.
+- Credential Revocation: All active sessions for compromised identities are revoked in Okta and Azure AD within 10 minutes.
+- Evidence Preservation: Memory dumps (`dd` or Volatility capture) and disk volume snapshots are preserved with SHA-256 hashes for chain-of-custody.
+
+## 5. Regulatory Notification Timelines
+- GDPR & European Authorities: Under Article 33 of GDPR, notifications to supervising data protection authorities must be made within 72 hours of becoming aware of a personal data breach.
+- Customer Notification: Impacted customers must be notified in writing within 5 calendar days following containment verification, coordinated by Legal and Communications departments.

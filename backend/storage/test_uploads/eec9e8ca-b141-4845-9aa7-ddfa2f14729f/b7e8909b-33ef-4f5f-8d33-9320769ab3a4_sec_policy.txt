@@ -1,0 +1,3 @@
+# Enterprise Security Policy
+
+All passwords must be at least 12 characters long and rotated every 90 days.
