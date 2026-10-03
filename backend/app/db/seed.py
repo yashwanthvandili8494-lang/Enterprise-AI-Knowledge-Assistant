@@ -75,7 +75,13 @@ async def seed_data():
 
         # Step 3: Seed Demo Documents
         manager_user = created_users.get("manager@acme.com") or created_users.get("admin@acme.com")
-        demo_docs_dir = Path(__file__).resolve().parent.parent.parent.parent / "demo_documents"
+        possible_dirs = [
+            Path(__file__).resolve().parent.parent.parent.parent / "demo_documents",
+            Path(__file__).resolve().parent.parent.parent / "demo_documents",
+            Path("demo_documents").resolve(),
+            Path("../demo_documents").resolve(),
+        ]
+        demo_docs_dir = next((d for d in possible_dirs if d.exists()), possible_dirs[0])
         
         sample_files = [
             {

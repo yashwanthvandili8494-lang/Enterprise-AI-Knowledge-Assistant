@@ -1,0 +1,29 @@
+# ACME CORP - GLOBAL ANNUAL LEAVE & TIME-OFF POLICY (HR-POL-2024-04)
+
+## 1. Overview & Eligibility
+All full-time employees of Acme Corp are eligible for annual paid time off (PTO) beginning on their first day of official employment. The annual leave year runs from January 1 through December 31.
+
+## 2. Annual Leave Entitlement
+- Base Entitlement: Every standard full-time employee is entitled to 25 working days of paid annual leave per calendar year.
+- Tenure Bonus: After 3 years of continuous service, employees receive 1 additional day per year of service, up to a maximum cap of 30 total annual leave days.
+- Public Holidays: Standard regional public holidays (10 days recognized nationally) are granted in addition to the 25 base annual leave days.
+
+## 3. Leave Request & Approval Procedure
+- Advance Notice: Employees must submit leave requests through the internal Acme HR Portal at least 2 weeks in advance for absences lasting 3 consecutive days or more.
+- Short Notice: Single-day leaves require at least 24 hours prior notice to the immediate team lead or manager.
+- Peak Periods: During end-of-quarter financial closing (last week of March, June, September, and December), vacation requests require approval from both the department manager and People Operations.
+
+## 4. Carry-Over and Expiration Rules
+- Employees are encouraged to take all accrued annual leave during the calendar year.
+- Up to 5 unused annual leave days may be carried over into the following year.
+- All carried-over days must be utilized before March 31 (Q1 conclusion); any remaining carried-over balance after March 31 will expire automatically without financial payout.
+
+## 5. Sick Leave & Medical Absences
+- Employees are granted up to 10 paid sick days per calendar year.
+- For consecutive medical absences of 3 days or longer, an official medical practitioner certificate must be uploaded to the HR Portal within 48 hours of returning to work.
+- In emergencies, notice should be communicated to the team lead via email or Slack by 09:00 local time on the day of illness.
+
+## 6. Parental and Compassionate Leave
+- Primary caregivers receive 16 weeks of fully paid parental leave following childbirth or formal adoption.
+- Secondary caregivers receive 6 weeks of fully paid parental leave.
+- Compassionate leave of up to 5 consecutive paid days is provided in the event of the loss of an immediate family member.

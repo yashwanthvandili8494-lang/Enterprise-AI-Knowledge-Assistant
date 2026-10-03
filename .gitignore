@@ -61,3 +61,5 @@ backend/storage/test_uploads/*
 .idea/
 .DS_Store
 Thumbs.db
+*.exe
+

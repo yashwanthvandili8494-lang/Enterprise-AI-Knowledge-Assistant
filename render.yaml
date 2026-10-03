@@ -10,6 +10,8 @@ services:
     startCommand: python -m app.db.seed && uvicorn app.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
     envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
       - key: DATABASE_URL
         value: sqlite+aiosqlite:///./knowledge_prod.db
       - key: DATABASE_SYNC_URL
