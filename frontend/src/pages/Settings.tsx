@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_SERVER_URL } from '../services/api';
 import { Settings as SettingsIcon, Cpu, Database, Shield, CheckCircle2, AlertCircle, RefreshCw } from 'lucide-react';
 import { Card } from '../components/common/Card';
 import { Badge } from '../components/common/Badge';
@@ -17,8 +18,8 @@ export const Settings: React.FC = () => {
     setChecking(true);
     try {
       const [hRes, rRes] = await Promise.all([
-        axios.get('/health'),
-        axios.get('/ready'),
+        axios.get(`${API_SERVER_URL}/health`),
+        axios.get(`${API_SERVER_URL}/ready`),
       ]);
       setHealthStatus({
         health: hRes.data,

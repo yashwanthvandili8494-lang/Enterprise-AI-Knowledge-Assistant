@@ -1,0 +1,42 @@
+services:
+  # Backend FastAPI Web Service
+  - type: web
+    name: enterprise-ai-backend
+    env: python
+    region: oregon
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m app.db.seed && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite+aiosqlite:///./knowledge_prod.db
+      - key: DATABASE_SYNC_URL
+        value: sqlite:///./knowledge_prod.db
+      - key: AI_PROVIDER
+        value: mock
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 60
+      - key: REFRESH_TOKEN_EXPIRE_DAYS
+        value: 7
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: DEMO_PASSWORD
+        value: DemoPass123!
+
+  # Frontend React/Vite Static Site
+  - type: web
+    name: enterprise-ai-frontend
+    env: static
+    region: oregon
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
