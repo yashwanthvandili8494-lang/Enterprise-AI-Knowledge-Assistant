@@ -31,11 +31,15 @@ ALLOWED_EXTENSIONS = {".pdf", ".docx", ".doc", ".txt", ".csv", ".md"}
 
 
 def _serialize_document(doc: Document, uploader_name: Optional[str] = None) -> DocumentResponse:
+    disp_uploader = uploader_name
+    if not disp_uploader and "uploader" in doc.__dict__ and doc.uploader:
+        disp_uploader = doc.uploader.name
+
     return DocumentResponse(
         id=doc.id,
         organization_id=doc.organization_id,
         uploaded_by=doc.uploaded_by,
-        uploader_name=uploader_name or (doc.uploader.name if doc.uploader else None),
+        uploader_name=disp_uploader,
         filename=doc.filename,
         content_type=doc.content_type,
         file_size=doc.file_size,

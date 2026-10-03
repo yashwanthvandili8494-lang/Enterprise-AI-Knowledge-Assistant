@@ -47,12 +47,14 @@ app.add_middleware(
 app.add_middleware(RequestContextMiddleware)
 
 
+from fastapi.encoders import jsonable_encoder
+
 # Global Exception Handlers
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
     return JSONResponse(
         status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-        content={"detail": "Request validation error", "errors": exc.errors()},
+        content={"detail": "Request validation error", "errors": jsonable_encoder(exc.errors())},
     )
 
 

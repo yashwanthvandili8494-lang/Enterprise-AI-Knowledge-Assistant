@@ -108,9 +108,16 @@ async def get_dashboard_overview(
         for a in audit_logs
     ]
 
+    # Pre-fetch uploader names for recent documents
+    doc_uploader_ids = [d.uploaded_by for d in recent_docs if d.uploaded_by]
+    doc_uploader_map = {}
+    if doc_uploader_ids:
+        doc_users = (await db.execute(select(User).where(User.id.in_(doc_uploader_ids)))).scalars().all()
+        doc_uploader_map = {u.id: u.name for u in doc_users}
+
     return DashboardOverviewResponse(
         metrics=metrics,
-        recent_documents=[_serialize_document(d) for d in recent_docs],
+        recent_documents=[_serialize_document(d, uploader_name=doc_uploader_map.get(d.uploaded_by)) for d in recent_docs],
         recent_sessions=[
             ChatSessionResponse(id=s.id, title=s.title, created_at=s.created_at, updated_at=s.updated_at)
             for s in recent_sessions
