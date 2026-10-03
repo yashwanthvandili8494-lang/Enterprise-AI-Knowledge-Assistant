@@ -332,6 +332,34 @@ Navigate to `http://localhost:5173`.
 
 ---
 
+### Option C: Cloud Deployment (Render for Backend + Vercel for Frontend)
+
+#### 1. Deploy Backend to Render:
+1. Log in to [Render Dashboard](https://dashboard.render.com).
+2. Click **New +** > **Blueprint**.
+3. Connect repository: `https://github.com/yashwanthvandili8494-lang/Enterprise-AI-Knowledge-Assistant`.
+4. Render automatically detects [`render.yaml`](render.yaml) and provisions:
+   * **Name**: `enterprise-ai-backend` (Python 3.12 Free Web Service)
+   * **Build Command**: `pip install -r requirements.txt`
+   * **Start Command**: `python -m app.db.seed && uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+   * **Database**: Embedded SQLite or Managed PostgreSQL
+   * **Health Check**: `/health`
+5. Click **Apply**. Once built, note your backend URL (e.g., `https://enterprise-ai-backend.onrender.com`).
+*(Optional: Add `GEMINI_API_KEY` and set `AI_PROVIDER=gemini` in Render Environment Variables for live Gemini LLM embeddings & generation).*
+
+#### 2. Deploy Frontend to Vercel:
+1. Log in to [Vercel Dashboard](https://vercel.com).
+2. Click **Add New...** > **Project**.
+3. Import `Enterprise-AI-Knowledge-Assistant`.
+4. Configure Project:
+   * **Framework Preset**: Vite
+   * **Root Directory**: `frontend`
+5. In **Environment Variables**, add:
+   * `VITE_API_URL`: `https://enterprise-ai-backend.onrender.com` (replace with your actual Render URL)
+6. Click **Deploy**. Vercel will build and launch your production SPA with client-side routing.
+
+---
+
 ## 8. Demo Credentials & Test Scenarios
 
 The seed script creates a complete enterprise organization (**Acme Enterprise**) with three pre-configured accounts:
